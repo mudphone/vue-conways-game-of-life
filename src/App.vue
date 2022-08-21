@@ -31,13 +31,11 @@
   }
 
   const updateState = (state) => {
-    console.debug('old state', state)
     _.forEach(_.range(ROWS), r => {
       _.forEach(_.range(COLS), c => {
         gameState.value[r][c] = cellState(r, c, state)
       })
     })
-    console.debug('new game state', gameState.value)
   }
 
   const cellState = (rowIdx, colIdx, state) => {
@@ -47,7 +45,6 @@
       // cell is alive
       let numLiveNeighbors = 0
       _.forEach(neighbors, ([r, c]) => {
-        // console.debug('row', r, 'col', c)
         if (state[r][c] === A) {
           numLiveNeighbors++
         }
