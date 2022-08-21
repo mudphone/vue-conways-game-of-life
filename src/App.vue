@@ -1,5 +1,6 @@
 <script setup>
   import { ref } from 'vue'
+  import GameCell from './components/GameCell.vue'
   import * as _ from 'lodash'
 
   const D = 0 // dead
@@ -97,10 +98,11 @@
       v-for="rowIdx in _.range(ROWS)"
       :key="rowIdx"
       >
-      <td
+      <game-cell
         v-for="colIdx in _.range(COLS)"
         :key="colIdx"
-        >{{ gameState[rowIdx][colIdx] }}</td>
+        :cell-state="gameState[rowIdx][colIdx]"
+        ></game-cell>
     </tr>
   </table>
 </template>
