@@ -14,7 +14,7 @@
 
 
   const iterateGame = (rows, cols, state) => {
-    state.value = updateState(rows, cols, _.cloneDeep(state.value), state.value)
+    state.value = updateState(rows, cols, state.value)
   }
 
 

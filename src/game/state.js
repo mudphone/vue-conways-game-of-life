@@ -2,8 +2,8 @@ import * as _ from 'lodash'
 
 
 
-const D = 0 // dead
-const A = 1 // alive
+const D = false // dead
+const A = true // alive
 
 
 export const getInitState = (rows, cols) => {
@@ -22,7 +22,8 @@ export const getInitState = (rows, cols) => {
 }
 
 
-export const updateState = (rows, cols, newState, oldState) => {
+export const updateState = (rows, cols, oldState) => {
+  const newState = _.cloneDeep(oldState)
   _.forEach(_.range(rows), r => {
     _.forEach(_.range(cols), c => {
       newState[r][c] = cellState(rows, cols, r, c, oldState)
@@ -34,11 +35,11 @@ export const updateState = (rows, cols, newState, oldState) => {
 const cellState = (rows, cols, rowIdx, colIdx, state) => {
   const cell = state[rowIdx][colIdx]
   const neighbors = neighborsFor(rows, cols, rowIdx, colIdx)
-  if (cell === A) {
+  if (cell) {
     // cell is alive
     let numLiveNeighbors = 0
     _.forEach(neighbors, ([r, c]) => {
-      if (state[r][c] === A) {
+      if (state[r][c]) {
         numLiveNeighbors++
       }
       if (numLiveNeighbors > 3) {
@@ -53,7 +54,7 @@ const cellState = (rows, cols, rowIdx, colIdx, state) => {
     // cell is dead
     let numLiveNeighbors = 0
     _.forEach(neighbors, ([r, c]) => {
-      if (state[r][c] === A) {
+      if (state[r][c]) {
         numLiveNeighbors++
       }
       if (numLiveNeighbors > 4) {

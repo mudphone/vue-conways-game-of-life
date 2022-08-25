@@ -1,15 +1,15 @@
 <script setup>
   const props = defineProps({
-    cellState: Number
+    cellState: Boolean
   })
 </script>
 
 <template>
   <td
     class="cell"
-    :class="{ 'alive': cellState === 1 }"
+    :class="{ 'alive': cellState }"
     >
-    {{ cellState }}
+    {{ cellState ? '' : '.' }}
   </td>
 </template>
 
