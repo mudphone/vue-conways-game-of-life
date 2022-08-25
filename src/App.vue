@@ -1,7 +1,7 @@
 <script setup>
   import * as _ from 'lodash'
   window._ = _
-  import { ref } from 'vue'
+  import { computed, ref } from 'vue'
 
   import GameCell from './components/GameCell.vue'
   import {getInitState, updateState} from './game/state'
@@ -39,6 +39,29 @@
   let timer = startGame(gameState, INTERVAL_MILLIS)
 
 
+  const gridWidth = computed(() => {
+    return numCols.value * cellSize.value
+  })
+
+
+  const leftMargin = computed(() => {
+    return (innerWidth - gridWidth.value) / 2
+  })
+
+
+  const gridStyle = computed(() => {
+    return `margin-left: ${leftMargin.value}px;`
+  })
+
+
+  const cellStyle = computed(() => {
+    return `
+      width: ${cellSize.value}px;
+      height: ${cellSize.value}px;
+    `
+  })
+
+
   const restartGame = () => {
     clearTimeout(timer)
     const initialState = getInitState(numRows.value, numCols.value)
@@ -72,7 +95,10 @@
         type="range"
         v-model="cellSize">
     </div>
-    <div class="grid">
+    <div
+      class="grid"
+      :style="gridStyle"
+      >
       <div
         v-for="rowIdx in _.range(_.size(gameState))"
         class="row"
@@ -82,7 +108,7 @@
           v-for="colIdx in _.range(_.size(_.first(gameState)))"
           :key="colIdx"
           :cell-state="gameState[rowIdx][colIdx]"
-          :style="'width: ' + cellSize + 'px; height: ' + cellSize + 'px;'"
+          :style="cellStyle"
           ></game-cell>
       </div>
     </div>
