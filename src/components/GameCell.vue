@@ -1,13 +1,22 @@
 <script setup>
+  const emit = defineEmits(['toggleCell'])
+
+
   const props = defineProps({
-    cellState: Boolean
+    cellState: Boolean,
   })
+
+  
+  const cellClick = () => {
+    emit('toggleCell')
+  }
 </script>
 
 <template>
   <div
     class="cell"
     :class="{ 'alive': cellState }"
+    @click="cellClick"
     >
     {{ cellState ? '' : '.' }}
   </div>

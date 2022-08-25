@@ -62,6 +62,12 @@
   })
 
 
+  const toggleCell = (rowIdx, colIdx) => {
+    const cell = gameState.value[rowIdx][colIdx]
+    gameState.value[rowIdx][colIdx] = !cell
+  }
+
+
   const restartGame = () => {
     clearTimeout(timer)
     const initialState = getInitState(numRows.value, numCols.value)
@@ -108,6 +114,7 @@
           v-for="colIdx in _.range(_.size(_.first(gameState)))"
           :key="colIdx"
           :cell-state="gameState[rowIdx][colIdx]"
+          @toggle-cell="toggleCell(rowIdx, colIdx)"
           :style="cellStyle"
           ></game-cell>
       </div>
