@@ -34,6 +34,8 @@
   const numCols = ref(DEFAULT_COLS)
   const cellSize = ref(DEFAULT_CELLS_SIZE)
 
+  const playPauseText = ref('Pause')
+
   const initialState = getInitState(numRows.value, numCols.value)
   const gameState = ref(initialState)
   let timer = startGame(gameState, INTERVAL_MILLIS)
@@ -69,6 +71,19 @@
   }
 
 
+  const togglePlayPause = () => {
+    console.debug('toggle play/pause')
+    if (timer) {
+      clearTimeout(timer)
+      timer = null
+      playPauseText.value = 'Play'
+    } else {
+      timer = startGame(gameState, INTERVAL_MILLIS)
+      playPauseText.value = 'Pause'
+    }
+  }
+
+
   const restartGame = () => {
     clearTimeout(timer)
     const initialState = getInitState(numRows.value, numCols.value)
@@ -80,6 +95,9 @@
 <template>
   <div class="game">
     <div class="controls">
+      <button
+        @click="togglePlayPause"
+        >{{ playPauseText }}</button>
       <button
         @click="restartGame"
         >Restart</button>
