@@ -10,7 +10,7 @@
 
   const ROWS = 20
   const COLS = 20
-  const INTERVAL_MILLIS = 2000
+  const INTERVAL_MILLIS = 500
 
 
   const iterateGame = (rows, cols, state) => {
@@ -21,26 +21,39 @@
   const startGame = (state, intervalMillis) => {
     const rows = state.value.length
     const cols = state.value[0].length
-    setInterval(() => iterateGame(rows, cols, state), intervalMillis)
+    return setInterval(() => iterateGame(rows, cols, state), intervalMillis)
   }
 
 
   const initialState = getInitState(ROWS, COLS)
   const gameState = ref(initialState)
-  startGame(gameState, INTERVAL_MILLIS)
+  let timer = startGame(gameState, INTERVAL_MILLIS)
+
+
+  const restartGame = () => {
+    clearTimeout(timer)
+    const initialState = getInitState(ROWS, COLS)
+    gameState.value = initialState
+    timer = startGame(gameState, INTERVAL_MILLIS)
+  }
 </script>
 
 <template>
-  <table>
-    <tr 
-      v-for="rowIdx in _.range(ROWS)"
-      :key="rowIdx"
-      >
-      <game-cell
-        v-for="colIdx in _.range(COLS)"
-        :key="colIdx"
-        :cell-state="gameState[rowIdx][colIdx]"
-        ></game-cell>
-    </tr>
-  </table>
+  <div>
+    <button
+      @click="restartGame"
+      >Restart</button>
+    <table>
+      <tr 
+        v-for="rowIdx in _.range(ROWS)"
+        :key="rowIdx"
+        >
+        <game-cell
+          v-for="colIdx in _.range(COLS)"
+          :key="colIdx"
+          :cell-state="gameState[rowIdx][colIdx]"
+          ></game-cell>
+      </tr>
+    </table>
+  </div>
 </template>
