@@ -34,11 +34,10 @@
   const numCols = ref(DEFAULT_COLS)
   const cellSize = ref(DEFAULT_CELLS_SIZE)
 
-  const playPauseText = ref('Pause')
-
   const initialState = getInitState(numRows.value, numCols.value)
   const gameState = ref(initialState)
-  let timer = startGame(gameState, INTERVAL_MILLIS)
+  const timer = ref(null)
+  timer.value = startGame(gameState, INTERVAL_MILLIS)
 
 
   const gridWidth = computed(() => {
@@ -72,23 +71,25 @@
 
 
   const togglePlayPause = () => {
-    console.debug('toggle play/pause')
-    if (timer) {
-      clearTimeout(timer)
-      timer = null
-      playPauseText.value = 'Play'
+    if (timer.value) {
+      clearTimeout(timer.value)
+      timer.value = null
     } else {
-      timer = startGame(gameState, INTERVAL_MILLIS)
-      playPauseText.value = 'Pause'
+      timer.value = startGame(gameState, INTERVAL_MILLIS)
     }
   }
 
+  const playPauseText = computed(() => {
+    if (timer.value) return 'Pause'
+    return 'Play'
+  })
+
 
   const restartGame = () => {
-    clearTimeout(timer)
+    clearTimeout(timer.value)
     const initialState = getInitState(numRows.value, numCols.value)
     gameState.value = initialState
-    timer = startGame(gameState, INTERVAL_MILLIS)
+    timer.value = startGame(gameState, INTERVAL_MILLIS)
   }
 </script>
 
