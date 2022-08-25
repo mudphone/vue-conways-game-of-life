@@ -15,7 +15,7 @@
 <template>
   <div
     class="cell"
-    :class="{ 'alive': cellState, 'dead': !cellState }"
+    :class="{ 'alive': cellState, 'empty': !cellState }"
     @click="cellClick"
     >
   </div>
@@ -40,12 +40,12 @@
     border: none;
   }
 
-  .dead {
+  .empty {
     background-color: darkgray;
     opacity: 0.1;
   }
 
-  .dead:hover {
+  .empty:hover {
     background-color: green;
     opacity: 1.0;
     border: none;

@@ -2,19 +2,19 @@ import * as _ from 'lodash'
 
 
 
-const D = false // dead
-const A = true // alive
+const EMPTY = false // empty
+const ALIVE = true // alive
 
 
 export const getInitState = (rows, cols) => {
   const s = []
   _.forEach(_.range(rows), () => {
-    s.push(_.fill(Array(cols), D))
+    s.push(_.fill(Array(cols), EMPTY))
   })
   _.forEach(_.range(rows), r => {
     _.forEach(_.range(cols), c => {
       if (_.random(10) >= 5) {
-        s[r][c] = A
+        s[r][c] = ALIVE
       }
     })
   })
@@ -47,7 +47,7 @@ const cellState = (rows, cols, rowIdx, colIdx, state) => {
       }
     })
     if (numLiveNeighbors === 2 || numLiveNeighbors === 3) {
-      return A
+      return ALIVE
     }
 
   } else {
@@ -62,12 +62,12 @@ const cellState = (rows, cols, rowIdx, colIdx, state) => {
       }
     })
     if (numLiveNeighbors === 3) {
-      return A
+      return ALIVE
     }
 
   }
 
-  return D
+  return EMPTY
 }
 
 const neighborsFor = (rows, cols, rowIdx, colIdx) => {
