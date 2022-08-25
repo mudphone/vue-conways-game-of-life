@@ -18,7 +18,7 @@
     background-color: white;
   }
   .cell {
-    width: 20px;
+    width: 24px;
     height: 20px;
   }
 </style>
