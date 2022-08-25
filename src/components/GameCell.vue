@@ -15,28 +15,39 @@
 <template>
   <div
     class="cell"
-    :class="{ 'alive': cellState }"
+    :class="{ 'alive': cellState, 'dead': !cellState }"
     @click="cellClick"
     >
-    {{ cellState ? '' : '.' }}
   </div>
 </template>
 
 <style scoped>
+  /* .cell {
+    width: 20px;
+    height: 20px;
+    border: 0.1px solid white;
+  } */
+  .cell {
+    border: 0.05px dotted white;
+  }
+
   .alive {
     background-color: white;
   }
 
-  /* .cell {
-    width: 20px;
-    height: 20px;
-  } */
-
-  .cell:hover {
-    background-color: gray;
-  }
-
   .alive:hover {
     background-color: red;
+    border: none;
+  }
+
+  .dead {
+    background-color: darkgray;
+    opacity: 0.1;
+  }
+
+  .dead:hover {
+    background-color: green;
+    opacity: 1.0;
+    border: none;
   }
 </style>

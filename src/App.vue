@@ -110,10 +110,12 @@
         v-for="rowIdx in _.range(_.size(gameState))"
         class="row"
         :key="rowIdx"
+        :class="'row'-rowIdx"
         >
         <game-cell
           v-for="colIdx in _.range(_.size(_.first(gameState)))"
           :key="colIdx"
+          :class="colIdx"
           :cell-state="gameState[rowIdx][colIdx]"
           @toggle-cell="toggleCell(rowIdx, colIdx)"
           :style="cellStyle"
@@ -135,6 +137,7 @@
   }
   .grid {
     width: calc(100vw - 100px);
+    cursor: pointer;
   }
 
   .row {
