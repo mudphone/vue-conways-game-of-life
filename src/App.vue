@@ -40,7 +40,8 @@
 
 
   const gridWidth = computed(() => {
-    return numCols.value * cellSize.value
+    const colCount = _.size(_.first(gameState.value))
+    return colCount * cellSize.value
   })
 
 
