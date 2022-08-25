@@ -8,8 +8,8 @@
 
 
 
-  const ROWS = 20
-  const COLS = 20
+  const DEFAULT_ROWS = 20
+  const DEFAULT_COLS = 20
   const INTERVAL_MILLIS = 500
 
 
@@ -19,20 +19,23 @@
 
 
   const startGame = (state, intervalMillis) => {
-    const rows = state.value.length
-    const cols = state.value[0].length
+    const rows = _.size(state.value)
+    const cols = _.size(_.first(state.value))
     return setInterval(() => iterateGame(rows, cols, state), intervalMillis)
   }
 
 
-  const initialState = getInitState(ROWS, COLS)
+  const numRows = ref(DEFAULT_ROWS)
+  const numCols = ref(DEFAULT_COLS)
+
+  const initialState = getInitState(numRows.value, numCols.value)
   const gameState = ref(initialState)
   let timer = startGame(gameState, INTERVAL_MILLIS)
 
 
   const restartGame = () => {
     clearTimeout(timer)
-    const initialState = getInitState(ROWS, COLS)
+    const initialState = getInitState(numRows.value, numCols.value)
     gameState.value = initialState
     timer = startGame(gameState, INTERVAL_MILLIS)
   }
@@ -43,13 +46,25 @@
     <button
       @click="restartGame"
       >Restart</button>
+    Rows: {{ numRows }}
+    <input
+      type="range"
+      min="2"
+      max="100"
+      v-model="numRows">
+    Cols: {{ numCols }}
+    <input
+      min="2"
+      max="100"
+      type="range"
+      v-model="numCols">
     <table>
       <tr 
-        v-for="rowIdx in _.range(ROWS)"
+        v-for="rowIdx in _.range(_.size(gameState))"
         :key="rowIdx"
         >
         <game-cell
-          v-for="colIdx in _.range(COLS)"
+          v-for="colIdx in _.range(_.size(_.first(gameState)))"
           :key="colIdx"
           :cell-state="gameState[rowIdx][colIdx]"
           ></game-cell>
