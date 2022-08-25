@@ -26,8 +26,17 @@
   .alive {
     background-color: white;
   }
+
   /* .cell {
     width: 20px;
     height: 20px;
   } */
+
+  .cell:hover {
+    background-color: gray;
+  }
+
+  .alive:hover {
+    background-color: red;
+  }
 </style>
