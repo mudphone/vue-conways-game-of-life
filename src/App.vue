@@ -40,22 +40,6 @@
   timer.value = startGame(gameState, INTERVAL_MILLIS)
 
 
-  const gridWidth = computed(() => {
-    const colCount = _.size(_.first(gameState.value))
-    return colCount * cellSize.value
-  })
-
-
-  const leftMargin = computed(() => {
-    return (innerWidth - gridWidth.value) / 2
-  })
-
-
-  const gridStyle = computed(() => {
-    return `margin-left: ${leftMargin.value}px;`
-  })
-
-
   const cellStyle = computed(() => {
     return `
       width: ${cellSize.value}px;
@@ -121,10 +105,7 @@
         type="range"
         v-model="cellSize">
     </div>
-    <div
-      class="grid"
-      :style="gridStyle"
-      >
+    <div class="grid">
       <div
         v-for="rowIdx in _.range(_.size(gameState))"
         class="row"
@@ -134,10 +115,12 @@
         <game-cell
           v-for="colIdx in _.range(_.size(_.first(gameState)))"
           :key="colIdx"
-          :class="colIdx"
           :cell-state="gameState[rowIdx][colIdx]"
           @toggle-cell="toggleCell(rowIdx, colIdx)"
           :style="cellStyle"
+          :row-idx="rowIdx"
+          :col-idx="colIdx"
+          :game-state="gameState"
           ></game-cell>
       </div>
     </div>
@@ -148,15 +131,22 @@
 
   .game {
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .controls {
     position: fixed;
     top: 10px;
+    height: 100px;
   }
   .grid {
-    width: calc(100vw - 100px);
     cursor: pointer;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    height: calc(100vh - 100px);
+    border-radius: 20px;
   }
 
   .row {
